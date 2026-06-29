@@ -21,13 +21,13 @@ queue:
     title: "Implementer le hash de mot de passe Argon2id"
     version_target: v0.1.0
     priority: P0
-    status: IN_PROGRESS
+    status: DONE
     depends_on: [BL-S-010-001]
   - id: BL-S-010-003
     title: "Implementer JWT local RS256"
     version_target: v0.1.0
     priority: P0
-    status: READY
+    status: IN_PROGRESS
     depends_on: [BL-S-010-001]
   - id: BL-S-010-004
     title: "Implementer refresh tokens opaques"
