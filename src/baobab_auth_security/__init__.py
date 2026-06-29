@@ -27,6 +27,20 @@ from baobab_auth_security.exceptions import (
     TokenSignatureError,
     TokenValidationError,
 )
+from baobab_auth_security.jwks import (
+    JWK,
+    JWKS,
+    LocalJwksProvider,
+    RsaPublicJwkConverter,
+)
+from baobab_auth_security.keys import (
+    InMemoryKeyProvider,
+    KeyAlgorithm,
+    KeyGenerator,
+    KeyPair,
+    KeyStatus,
+    PemKeyLoader,
+)
 from baobab_auth_security.password import (
     Argon2PasswordHasher,
     PasswordHashPolicy,
@@ -50,26 +64,36 @@ from baobab_auth_security.tokens import (
 from baobab_auth_security.version import __version__
 
 __all__ = [
+    "JWK",
+    "JWKS",
     "Argon2PasswordHasher",
     "Clock",
     "ConfigurationError",
     "FixedClock",
+    "InMemoryKeyProvider",
     "InvalidAlgorithmError",
     "JwtAlgorithm",
     "JwtDecoder",
     "JwtEncoder",
     "JwtTokenProvider",
     "JwtValidator",
+    "KeyAlgorithm",
+    "KeyGenerator",
     "KeyManagementError",
     "KeyNotFoundError",
+    "KeyPair",
+    "KeyStatus",
+    "LocalJwksProvider",
     "PasswordHashPolicy",
     "PasswordHashResult",
     "PasswordHashingError",
     "PasswordVerificationResult",
+    "PemKeyLoader",
     "RefreshTokenError",
     "RefreshTokenGenerator",
     "RefreshTokenHasher",
     "RefreshTokenResult",
+    "RsaPublicJwkConverter",
     "SecurityError",
     "SecurityTokenClaims",
     "SecurityTokenPair",

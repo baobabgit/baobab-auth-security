@@ -33,13 +33,13 @@ queue:
     title: "Implementer refresh tokens opaques"
     version_target: v0.1.0
     priority: P1
-    status: IN_PROGRESS
+    status: DONE
     depends_on: [BL-S-010-001]
   - id: BL-S-010-005
     title: "Implementer cles RSA et JWKS local"
     version_target: v0.1.0
     priority: P0
-    status: READY
+    status: IN_PROGRESS
     depends_on: [BL-S-010-001]
   - id: BL-S-010-006
     title: "Implementer adaptateurs core"
