@@ -26,3 +26,7 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 - **Module `refresh_tokens`** (BL-S-010-004) : `RefreshTokenGenerator` (token
   opaque `secrets`), `RefreshTokenHasher` (SHA-256, comparaison temps constant),
   `RefreshTokenResult` (clair masqué, hash stockable, dates UTC).
+- **Modules `keys` et `jwks`** (BL-S-010-005) : `KeyAlgorithm`, `KeyStatus`,
+  `KeyPair` (clé privée masquée), `KeyGenerator` (RSA ≥ 2048), `InMemoryKeyProvider`
+  (signature + résolveur par `kid`), `PemKeyLoader` ; `JWK`/`JWKS`,
+  `RsaPublicJwkConverter`, `LocalJwksProvider` (JWKS public sans clé privée).
