@@ -33,6 +33,15 @@ from baobab_auth_security.password import (
     PasswordHashResult,
     PasswordVerificationResult,
 )
+from baobab_auth_security.tokens import (
+    JwtAlgorithm,
+    JwtDecoder,
+    JwtEncoder,
+    JwtTokenProvider,
+    JwtValidator,
+    SecurityTokenClaims,
+    SecurityTokenPair,
+)
 from baobab_auth_security.version import __version__
 
 __all__ = [
@@ -41,6 +50,11 @@ __all__ = [
     "ConfigurationError",
     "FixedClock",
     "InvalidAlgorithmError",
+    "JwtAlgorithm",
+    "JwtDecoder",
+    "JwtEncoder",
+    "JwtTokenProvider",
+    "JwtValidator",
     "KeyManagementError",
     "KeyNotFoundError",
     "PasswordHashPolicy",
@@ -49,6 +63,8 @@ __all__ = [
     "PasswordVerificationResult",
     "RefreshTokenError",
     "SecurityError",
+    "SecurityTokenClaims",
+    "SecurityTokenPair",
     "SystemClock",
     "TokenEncodingError",
     "TokenError",

@@ -19,3 +19,7 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 - **Module `password`** (BL-S-010-002) : `Argon2PasswordHasher` (Argon2id),
   `PasswordHashPolicy`, `PasswordHashResult` (masqué), `PasswordVerificationResult`,
   `needs_rehash` pour la migration des paramètres.
+- **Module `tokens`** (BL-S-010-003) : JWT local RS256 — `JwtAlgorithm` (liste
+  blanche RS256/384/512, refus `alg=none`), `SecurityTokenClaims`,
+  `SecurityTokenPair` (masqué), `JwtEncoder`, `JwtDecoder`, `JwtValidator`
+  (expiration/issuer/audience), `JwtTokenProvider`.
