@@ -27,16 +27,26 @@ from baobab_auth_security.exceptions import (
     TokenSignatureError,
     TokenValidationError,
 )
+from baobab_auth_security.password import (
+    Argon2PasswordHasher,
+    PasswordHashPolicy,
+    PasswordHashResult,
+    PasswordVerificationResult,
+)
 from baobab_auth_security.version import __version__
 
 __all__ = [
+    "Argon2PasswordHasher",
     "Clock",
     "ConfigurationError",
     "FixedClock",
     "InvalidAlgorithmError",
     "KeyManagementError",
     "KeyNotFoundError",
+    "PasswordHashPolicy",
+    "PasswordHashResult",
     "PasswordHashingError",
+    "PasswordVerificationResult",
     "RefreshTokenError",
     "SecurityError",
     "SystemClock",

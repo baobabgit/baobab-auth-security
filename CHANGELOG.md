@@ -16,3 +16,6 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
   `cryptography`, `PyJWT`, `pydantic-settings`.
 - Cahier des charges v0.1.0 intégré ; US-010/011/012, FEAT-010.x/011.1/012.x,
   ADR-0001 à 0006.
+- **Module `password`** (BL-S-010-002) : `Argon2PasswordHasher` (Argon2id),
+  `PasswordHashPolicy`, `PasswordHashResult` (masqué), `PasswordVerificationResult`,
+  `needs_rehash` pour la migration des paramètres.
