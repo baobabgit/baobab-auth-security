@@ -33,6 +33,11 @@ from baobab_auth_security.password import (
     PasswordHashResult,
     PasswordVerificationResult,
 )
+from baobab_auth_security.refresh_tokens import (
+    RefreshTokenGenerator,
+    RefreshTokenHasher,
+    RefreshTokenResult,
+)
 from baobab_auth_security.tokens import (
     JwtAlgorithm,
     JwtDecoder,
@@ -62,6 +67,9 @@ __all__ = [
     "PasswordHashingError",
     "PasswordVerificationResult",
     "RefreshTokenError",
+    "RefreshTokenGenerator",
+    "RefreshTokenHasher",
+    "RefreshTokenResult",
     "SecurityError",
     "SecurityTokenClaims",
     "SecurityTokenPair",

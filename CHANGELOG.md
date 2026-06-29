@@ -23,3 +23,6 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
   blanche RS256/384/512, refus `alg=none`), `SecurityTokenClaims`,
   `SecurityTokenPair` (masqué), `JwtEncoder`, `JwtDecoder`, `JwtValidator`
   (expiration/issuer/audience), `JwtTokenProvider`.
+- **Module `refresh_tokens`** (BL-S-010-004) : `RefreshTokenGenerator` (token
+  opaque `secrets`), `RefreshTokenHasher` (SHA-256, comparaison temps constant),
+  `RefreshTokenResult` (clair masqué, hash stockable, dates UTC).
