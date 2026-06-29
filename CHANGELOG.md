@@ -30,3 +30,9 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
   `KeyPair` (clé privée masquée), `KeyGenerator` (RSA ≥ 2048), `InMemoryKeyProvider`
   (signature + résolveur par `kid`), `PemKeyLoader` ; `JWK`/`JWKS`,
   `RsaPublicJwkConverter`, `LocalJwksProvider` (JWKS public sans clé privée).
+- **Modules `revocation` et `integration`** (BL-S-010-006) :
+  `RevocationChecker`/`InMemoryRevocationChecker` (par `jti`) ;
+  `CorePasswordHasherAdapter`, `CoreTokenProviderAdapter`, `CoreClaimsMapper`,
+  `CoreTokenPairMapper`, `CoreRevocationAdapter` conformes aux ports **réels**
+  (synchrones) de `baobab-auth-core` (cf. ADR-0005). Tests d'intégration
+  contractuels sous `tests/integration/core/`.

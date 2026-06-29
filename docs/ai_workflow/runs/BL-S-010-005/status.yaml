@@ -1,10 +1,11 @@
 id: BL-S-010-005
 title: "Implementer cles RSA et JWKS local"
-status: IN_PROGRESS
+status: DONE
 # Statuts : TODO → READY → IN_PROGRESS → DONE | BLOCKED
-step: merge_pending
+step: merged
 role: developpeur
 branch: bl/S-010-005-cles-jwks
 started_at: 2026-06-29T11:30:00+00:00
-completed_at: null
-last_heartbeat_at: 2026-06-29T12:00:00+00:00
+completed_at: 2026-06-29T12:10:00+00:00
+last_heartbeat_at: 2026-06-29T12:10:00+00:00
+merged_pr: 17

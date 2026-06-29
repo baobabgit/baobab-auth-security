@@ -27,6 +27,13 @@ from baobab_auth_security.exceptions import (
     TokenSignatureError,
     TokenValidationError,
 )
+from baobab_auth_security.integration import (
+    CoreClaimsMapper,
+    CorePasswordHasherAdapter,
+    CoreRevocationAdapter,
+    CoreTokenPairMapper,
+    CoreTokenProviderAdapter,
+)
 from baobab_auth_security.jwks import (
     JWK,
     JWKS,
@@ -52,6 +59,10 @@ from baobab_auth_security.refresh_tokens import (
     RefreshTokenHasher,
     RefreshTokenResult,
 )
+from baobab_auth_security.revocation import (
+    InMemoryRevocationChecker,
+    RevocationChecker,
+)
 from baobab_auth_security.tokens import (
     JwtAlgorithm,
     JwtDecoder,
@@ -69,8 +80,14 @@ __all__ = [
     "Argon2PasswordHasher",
     "Clock",
     "ConfigurationError",
+    "CoreClaimsMapper",
+    "CorePasswordHasherAdapter",
+    "CoreRevocationAdapter",
+    "CoreTokenPairMapper",
+    "CoreTokenProviderAdapter",
     "FixedClock",
     "InMemoryKeyProvider",
+    "InMemoryRevocationChecker",
     "InvalidAlgorithmError",
     "JwtAlgorithm",
     "JwtDecoder",
@@ -93,6 +110,7 @@ __all__ = [
     "RefreshTokenGenerator",
     "RefreshTokenHasher",
     "RefreshTokenResult",
+    "RevocationChecker",
     "RsaPublicJwkConverter",
     "SecurityError",
     "SecurityTokenClaims",
