@@ -1,20 +1,12 @@
 # Verrou de travail global — mode stable séquentiel
-# Un seul outil peut travailler à un instant donné.
-#
-# Règles :
-#   locked: false → un outil peut démarrer.
-#   locked: true + expires_at dans le futur → aucun autre outil ne modifie le projet.
-#   locked: true + expires_at dépassé → verrou orphelin → procédure de recovery.
-#
-# Tout outil actif doit mettre à jour last_heartbeat_at et expires_at régulièrement.
 
-locked: true
-active_run: BL-S-010-001
-active_role: orchestrateur
-active_tool: dev-assistant
-branch: version/v0.1.0
-locked_at: 2026-06-29T09:00:00+00:00
-last_heartbeat_at: 2026-06-29T09:00:00+00:00
-expires_at: 2026-06-29T11:00:00+00:00
+locked: false
+active_run: null
+active_role: null
+active_tool: null
+branch: null
+locked_at: null
+last_heartbeat_at: 2026-06-30T04:10:00+00:00
+expires_at: null
 lease_duration_minutes: 120
-status: IN_PROGRESS
+status: IDLE
