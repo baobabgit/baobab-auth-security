@@ -36,3 +36,8 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
   `CoreTokenPairMapper`, `CoreRevocationAdapter` conformes aux ports **réels**
   (synchrones) de `baobab-auth-core` (cf. ADR-0005). Tests d'intégration
   contractuels sous `tests/integration/core/`.
+- **Configuration, testing, sécurité et documentation** (BL-S-010-007) :
+  `SecuritySettings` (`pydantic-settings`, préfixe `BAOBAB_SECURITY_`),
+  `SecurityTestHarness` (pile déterministe pour consommateurs),
+  `tests/security/test_no_secret_leakage.py`, `docs/integration_core.md`,
+  `docs/security.md`, `.env.example`, matrice de compatibilité (core `v0.5.1`).

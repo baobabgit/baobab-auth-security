@@ -1,10 +1,11 @@
 id: BL-S-010-006
 title: "Implementer adaptateurs core"
-status: IN_PROGRESS
+status: DONE
 # Statuts : TODO → READY → IN_PROGRESS → DONE | BLOCKED
-step: merge_pending
+step: merged
 role: developpeur
 branch: bl/S-010-006-adaptateurs-core
 started_at: 2026-06-29T12:15:00+00:00
-completed_at: null
-last_heartbeat_at: 2026-06-29T12:50:00+00:00
+completed_at: 2026-06-29T13:10:00+00:00
+last_heartbeat_at: 2026-06-29T13:10:00+00:00
+merged_pr: 18

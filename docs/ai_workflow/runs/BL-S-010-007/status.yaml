@@ -1,9 +1,10 @@
 id: BL-S-010-007
 title: "Ajouter tests securite et documentation MVP"
-status: TODO
+status: IN_PROGRESS
 # Statuts : TODO → READY → IN_PROGRESS → DONE | BLOCKED
-step: null
-role: null
-started_at: null
+step: merge_pending
+role: developpeur
+branch: bl/S-010-007-tests-securite-doc
+started_at: 2026-06-29T13:15:00+00:00
 completed_at: null
-last_heartbeat_at: null
+last_heartbeat_at: 2026-06-29T13:45:00+00:00

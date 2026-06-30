@@ -12,6 +12,7 @@ Le contenu de ``__all__`` constitue le **contrat public** versionné en SemVer.
 from __future__ import annotations
 
 from baobab_auth_security.clock import Clock, FixedClock, SystemClock
+from baobab_auth_security.config import SecuritySettings
 from baobab_auth_security.exceptions import (
     ConfigurationError,
     InvalidAlgorithmError,
@@ -63,6 +64,7 @@ from baobab_auth_security.revocation import (
     InMemoryRevocationChecker,
     RevocationChecker,
 )
+from baobab_auth_security.testing import SecurityTestHarness
 from baobab_auth_security.tokens import (
     JwtAlgorithm,
     JwtDecoder,
@@ -113,6 +115,8 @@ __all__ = [
     "RevocationChecker",
     "RsaPublicJwkConverter",
     "SecurityError",
+    "SecuritySettings",
+    "SecurityTestHarness",
     "SecurityTokenClaims",
     "SecurityTokenPair",
     "SystemClock",

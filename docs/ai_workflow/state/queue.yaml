@@ -45,11 +45,11 @@ queue:
     title: "Implementer adaptateurs core"
     version_target: v0.1.0
     priority: P0
-    status: IN_PROGRESS
+    status: DONE
     depends_on: [BL-S-010-002, BL-S-010-003, BL-S-010-004, BL-S-010-005]
   - id: BL-S-010-007
     title: "Ajouter tests securite et documentation MVP"
     version_target: v0.1.0
     priority: P1
-    status: READY
+    status: IN_PROGRESS
     depends_on: [BL-S-010-001, BL-S-010-002, BL-S-010-003, BL-S-010-004, BL-S-010-005, BL-S-010-006]
