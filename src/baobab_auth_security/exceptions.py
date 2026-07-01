@@ -58,6 +58,10 @@ class KeyNotFoundError(KeyManagementError):
     """Aucune clé ne correspond au ``kid`` demandé."""
 
 
+class JwksFetchError(KeyManagementError):
+    """Échec de récupération ou de parsing d'un JWKS distant."""
+
+
 class RefreshTokenError(SecurityError):
     """Erreur liée à un refresh token opaque."""
 
@@ -65,6 +69,7 @@ class RefreshTokenError(SecurityError):
 __all__ = [
     "ConfigurationError",
     "InvalidAlgorithmError",
+    "JwksFetchError",
     "KeyManagementError",
     "KeyNotFoundError",
     "PasswordHashingError",
