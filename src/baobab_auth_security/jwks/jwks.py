@@ -8,7 +8,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-from baobab_auth_security.jwks.jwk import JWK
+from baobab_auth_security.jwks.public_jwk import PublicJwk
 
 
 @dataclass(frozen=True)
@@ -18,7 +18,7 @@ class JWKS:
     :param keys: Clés publiques exposées.
     """
 
-    keys: tuple[JWK, ...]
+    keys: tuple[PublicJwk, ...]
 
     def to_dict(self) -> dict[str, Any]:
         """Sérialise le JWKS au format ``{"keys": [...]}``.

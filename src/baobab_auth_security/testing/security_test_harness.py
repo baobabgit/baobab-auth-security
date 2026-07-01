@@ -10,6 +10,7 @@ core prêts à l'emploi.
 from __future__ import annotations
 
 from datetime import UTC, datetime
+from typing import cast
 
 from baobab_auth_security.clock.fixed_clock import FixedClock
 from baobab_auth_security.integration.core_password_hasher_adapter import (
@@ -27,6 +28,7 @@ from baobab_auth_security.tokens.jwt_decoder import JwtDecoder
 from baobab_auth_security.tokens.jwt_encoder import JwtEncoder
 from baobab_auth_security.tokens.jwt_token_provider import JwtTokenProvider
 from baobab_auth_security.tokens.jwt_validator import JwtValidator
+from baobab_auth_security.tokens.signing_key_types import SigningPrivateKey
 
 _DEFAULT_MOMENT = datetime(2026, 1, 1, tzinfo=UTC)
 # Politique Argon2 volontairement faible : tests rapides et déterministes.
@@ -56,7 +58,7 @@ class SecurityTestHarness:
         self._key_provider = InMemoryKeyProvider((key_pair,))
         self._jwks_provider = LocalJwksProvider(self._key_provider)
         self._jwt_provider = JwtTokenProvider(
-            JwtEncoder(key_pair.private_key, key_pair.kid),
+            JwtEncoder(cast(SigningPrivateKey, key_pair.private_key), key_pair.kid),
             JwtDecoder(self._key_provider.public_key_for_kid),
             JwtValidator(self._clock, issuer=issuer, audience=audience),
             self._clock,

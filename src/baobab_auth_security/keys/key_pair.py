@@ -8,7 +8,10 @@ from __future__ import annotations
 from dataclasses import dataclass
 from datetime import datetime
 
-from cryptography.hazmat.primitives.asymmetric.rsa import RSAPrivateKey, RSAPublicKey
+from cryptography.hazmat.primitives.asymmetric.types import (
+    PrivateKeyTypes,
+    PublicKeyTypes,
+)
 
 from baobab_auth_security.exceptions import KeyManagementError
 from baobab_auth_security.keys.key_algorithm import KeyAlgorithm
@@ -17,14 +20,14 @@ from baobab_auth_security.keys.key_status import KeyStatus
 
 @dataclass(frozen=True)
 class KeyPair:
-    """Paire de clés RSA active/retirée, avec ``kid`` et statut.
+    """Paire de clés asymétrique active/retirée, avec ``kid`` et statut.
 
     La clé privée n'apparaît **jamais** dans :meth:`__repr__` (ADR-0006).
 
     :param kid: Identifiant de clé (publié dans le header JWT et le JWKS).
     :param algorithm: Algorithme de signature associé.
-    :param private_key: Clé privée RSA (jamais exposée hors signature).
-    :param public_key: Clé publique RSA (exposée au JWKS).
+    :param private_key: Clé privée (RSA, EC ou OKP ; jamais exposée hors signature).
+    :param public_key: Clé publique correspondante (exposée au JWKS).
     :param status: Statut de cycle de vie.
     :param created_at: Date de création (UTC aware).
     :raises KeyManagementError: Si ``kid`` est vide ou ``created_at`` naïf.
@@ -32,8 +35,8 @@ class KeyPair:
 
     kid: str
     algorithm: KeyAlgorithm
-    private_key: RSAPrivateKey
-    public_key: RSAPublicKey
+    private_key: PrivateKeyTypes
+    public_key: PublicKeyTypes
     status: KeyStatus
     created_at: datetime
 

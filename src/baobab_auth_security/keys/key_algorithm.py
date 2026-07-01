@@ -11,11 +11,15 @@ from baobab_auth_security.exceptions import ConfigurationError
 
 
 class KeyAlgorithm(StrEnum):
-    """Algorithmes de signature RSA (alignés sur ``JwtAlgorithm``)."""
+    """Algorithmes de signature supportés (alignés sur ``JwtAlgorithm``)."""
 
     RS256 = "RS256"
     RS384 = "RS384"
     RS512 = "RS512"
+    ES256 = "ES256"
+    ES384 = "ES384"
+    ES512 = "ES512"
+    EdDSA = "EdDSA"
 
     @classmethod
     def from_name(cls, name: str) -> KeyAlgorithm:

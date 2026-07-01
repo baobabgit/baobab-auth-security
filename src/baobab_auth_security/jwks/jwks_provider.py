@@ -6,7 +6,7 @@
 from __future__ import annotations
 
 from baobab_auth_security.jwks.jwks import JWKS
-from baobab_auth_security.jwks.rsa_public_jwk_converter import RsaPublicJwkConverter
+from baobab_auth_security.jwks.public_jwk_converter import PublicJwkConverter
 from baobab_auth_security.keys.in_memory_key_provider import InMemoryKeyProvider
 from baobab_auth_security.keys.key_status import KeyStatus
 
@@ -20,18 +20,18 @@ class LocalJwksProvider:
     ``PENDING`` sont omises. Le JWKS ne contient **aucune** clé privée.
 
     :param key_provider: Fournisseur de clés en mémoire.
-    :param converter: Convertisseur RSA → JWK ; défaut
-        :class:`RsaPublicJwkConverter`.
+    :param converter: Convertisseur public → JWK ; défaut
+        :class:`PublicJwkConverter`.
     """
 
     def __init__(
         self,
         key_provider: InMemoryKeyProvider,
-        converter: RsaPublicJwkConverter | None = None,
+        converter: PublicJwkConverter | None = None,
     ) -> None:
         """Initialise le fournisseur de JWKS."""
         self._keys = key_provider
-        self._converter = converter or RsaPublicJwkConverter()
+        self._converter = converter or PublicJwkConverter()
 
     def jwks(self) -> JWKS:
         """Retourne le JWKS public courant.

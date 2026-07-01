@@ -11,10 +11,9 @@ from __future__ import annotations
 
 from collections.abc import Callable
 from datetime import UTC, datetime
-from typing import Any
+from typing import Any, cast
 
 import jwt
-from cryptography.hazmat.primitives.asymmetric.rsa import RSAPublicKey
 
 from baobab_auth_security.exceptions import (
     InvalidAlgorithmError,
@@ -23,15 +22,16 @@ from baobab_auth_security.exceptions import (
 )
 from baobab_auth_security.tokens.jwt_algorithm import JwtAlgorithm
 from baobab_auth_security.tokens.security_token_claims import SecurityTokenClaims
+from baobab_auth_security.tokens.signing_key_types import SigningPublicKey
 
-PublicKeyResolver = Callable[[str], RSAPublicKey]
-"""Résout une clé publique RSA à partir d'un ``kid``."""
+PublicKeyResolver = Callable[[str], SigningPublicKey]
+"""Résout une clé publique à partir d'un ``kid``."""
 
 
 class JwtDecoder:
     """Vérifie la signature d'un JWT et en extrait les claims.
 
-    :param public_key_resolver: Fonction ``kid -> RSAPublicKey``.
+    :param public_key_resolver: Fonction ``kid -> PublicKeyTypes``.
     :param algorithms: Algorithmes autorisés ; défaut : tous les ``RS*``.
     """
 
@@ -74,7 +74,7 @@ class JwtDecoder:
         try:
             payload: dict[str, Any] = jwt.decode(
                 token,
-                public_key,
+                cast(Any, public_key),
                 algorithms=[alg.value for alg in self._algorithms],
                 options={"verify_exp": False, "verify_aud": False},
             )

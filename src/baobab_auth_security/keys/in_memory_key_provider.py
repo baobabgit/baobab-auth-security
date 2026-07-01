@@ -5,11 +5,12 @@
 
 from __future__ import annotations
 
-from cryptography.hazmat.primitives.asymmetric.rsa import RSAPublicKey
+from typing import cast
 
 from baobab_auth_security.exceptions import KeyManagementError, KeyNotFoundError
 from baobab_auth_security.keys.key_pair import KeyPair
 from baobab_auth_security.keys.key_status import KeyStatus
+from baobab_auth_security.tokens.signing_key_types import SigningPublicKey
 
 
 class InMemoryKeyProvider:
@@ -61,15 +62,15 @@ class InMemoryKeyProvider:
             raise KeyManagementError("Aucune clé active de signature.")
         return self._keys[self._active_kid]
 
-    def public_key_for_kid(self, kid: str) -> RSAPublicKey:
+    def public_key_for_kid(self, kid: str) -> SigningPublicKey:
         """Résout une clé publique par ``kid`` (résolveur de vérification).
 
         :param kid: Identifiant de clé recherché.
-        :returns: Clé publique RSA correspondante.
+        :returns: Clé publique correspondante.
         :raises KeyNotFoundError: Si le ``kid`` est inconnu.
         """
         try:
-            return self._keys[kid].public_key
+            return cast(SigningPublicKey, self._keys[kid].public_key)
         except KeyError as exc:
             raise KeyNotFoundError(f"kid inconnu : {kid}") from exc
 
