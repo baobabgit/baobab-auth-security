@@ -24,3 +24,11 @@ Status : **INTEGRATION_PENDING** (2026-06-30)
 - Ref git proposée : `version/v0.1.0`
 - Consommateur déclaré : `baobab-auth-api` (PENDING)
 - Matrice : `docs/integrations/compatibility_matrix.yaml`
+
+### Gate actif (décision 2026-06-30)
+
+**Attente** de la validation `baobab-auth-core v0.5.1` par `baobab-auth-api`,
+`baobab-auth-client` et `baobab-auth-admin` (ordres 3–5 dans la matrice core)
+avant de lancer l'intégration aval security → api.
+
+Détail : [`docs/integrations/integration_gate.md`](../../integrations/integration_gate.md)
