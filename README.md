@@ -111,6 +111,14 @@ Matrice de compatibilité :
 v0.1.0 valide l'intégration contractuelle avec **`baobab-auth-core >=0.4.0,<1.0.0`**
 (validé contre `v0.5.1`). Détails : [`docs/integration_core.md`](docs/integration_core.md).
 
+**Intégration aval (`INTEGRATION_PENDING`)** — les consommateurs testent via git-ref :
+
+```bash
+uv add "baobab-auth-security @ git+https://github.com/baobabgit/baobab-auth-security.git@version/v0.1.0"
+```
+
+Consommateur cible v0.1.0 : `baobab-auth-api` (login, refresh, JWKS local).
+
 ## Sécurité
 
 - **Aucun secret** dans le code ou Git (`.env` gitignoré, `.env.example` versionné).

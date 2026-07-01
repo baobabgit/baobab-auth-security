@@ -9,6 +9,12 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 
 ### Ajouté
 
+- **Intégration aval** : version `v0.1.0` proposée aux consommateurs via git-ref
+  `version/v0.1.0` (`INTEGRATION_PENDING`) ; `baobab-auth-api` déclaré PENDING
+  dans `docs/integrations/compatibility_matrix.yaml`.
+
+### Ajouté (socle v0.1.0)
+
 - **Socle du package `baobab_auth_security`** (BL-S-010-001) : layout `src/`,
   `py.typed`, `version.py`, hiérarchie d'exceptions (`SecurityError` racine),
   module `clock` (`Clock`, `SystemClock`, `FixedClock`, UTC aware).

@@ -8,16 +8,28 @@
 
 library: baobab-auth-security
 version: v0.1.0
+integration_ref: version/v0.1.0
 
 # Consommateurs de cette librairie (API, client, admin, service...).
-validated_consumers: []
-# Exemple :
-# - name: baobab-auth-api
-#   version: v0.1.0
-#   status: PENDING                  # PENDING | PASSED | FAILED
-#   integration_method: git_ref
-#   ref: version/v0.1.0
-#   report: docs/integrations/reports/baobab-auth-security-v0.1.0__baobab-auth-api-v0.1.0.md
+validated_consumers:
+  - order: 1
+    name: baobab-auth-api
+    contract: api
+    version: PENDING
+    status: PENDING
+    required: true
+    integration_method: git_ref
+    ref: version/v0.1.0
+    validation_type:
+      - import_tests
+      - contract_tests
+      - integration_tests
+    report: null
+    notes: >
+      Login, refresh, JWKS local ; dépend de database + security.
+      Consommateur cible v0.1.0 (cahier des charges § intégration).
+      Installation :
+      baobab-auth-security @ git+https://github.com/baobabgit/baobab-auth-security.git@version/v0.1.0
 
 # Dépendances de cette librairie (briques dont elle dépend).
 validated_dependencies:
