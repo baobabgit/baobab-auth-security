@@ -1,8 +1,17 @@
-# Matrice de compatibilité inter-librairies
-validated_consumers: []
-# Exemple :
-# - name: baobab-example-consumer
-#   version: v2.0.0
-#   status: PENDING   # PENDING | PASSED | FAILED
-#   integration_method: git_ref
-#   ref: version/v0.1.0
+# Matrice d'intégration — v0.1.0 (producteur)
+# Ref git proposée aux consommateurs : version/v0.1.0
+
+integration_ref: version/v0.1.0
+integration_method: git_ref
+
+validated_consumers:
+  - name: baobab-auth-api
+    version: PENDING
+    status: PENDING
+    required: true
+    ref: version/v0.1.0
+
+validated_dependencies:
+  - name: baobab-auth-core
+    version: v0.5.1
+    status: PASSED

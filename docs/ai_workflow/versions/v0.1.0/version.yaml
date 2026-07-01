@@ -1,10 +1,12 @@
 version: v0.1.0
-status: INTERNAL_VALIDATED
+status: INTEGRATION_PENDING
 created_at: 2026-06-29
+validated_at: 2026-06-30
+integration_pending_at: 2026-06-30
 released_at: null
 core_dependency: ">=0.4.0,<1.0.0"
 core_validated_against: v0.5.1
-validated_at: 2026-06-30
+integration_ref: version/v0.1.0
 # Statuts : PLANNED → IN_DEVELOPMENT → INTERNAL_VALIDATED
 #           → INTEGRATION_PENDING → INTEGRATION_VALIDATED
 #           → RELEASE_READY → RELEASED

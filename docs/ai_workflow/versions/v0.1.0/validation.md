@@ -16,3 +16,11 @@ Status : **INTERNAL_VALIDATED** (2026-06-30)
 - Dernière PR : #19.
 - Couverture : 100 % (169 tests).
 - Intégration core `v0.5.1` : PASSED (rapport dans `docs/integrations/reports/`).
+
+## Intégration aval (producteur)
+
+Status : **INTEGRATION_PENDING** (2026-06-30)
+
+- Ref git proposée : `version/v0.1.0`
+- Consommateur déclaré : `baobab-auth-api` (PENDING)
+- Matrice : `docs/integrations/compatibility_matrix.yaml`
