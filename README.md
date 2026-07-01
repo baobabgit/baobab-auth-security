@@ -1,164 +1,138 @@
-# Example Package
+# baobab-auth-security
 
-[![Integration](https://github.com/your-org/your-repo/actions/workflows/integration.yml/badge.svg)](https://github.com/your-org/your-repo/actions/workflows/integration.yml)
-[![Release](https://github.com/your-org/your-repo/actions/workflows/release.yml/badge.svg)](https://github.com/your-org/your-repo/actions/workflows/release.yml)
-[![PyPI version](https://img.shields.io/pypi/v/example-package.svg)](https://pypi.org/project/example-package/)
-[![Python versions](https://img.shields.io/pypi/pyversions/example-package.svg)](https://pypi.org/project/example-package/)
-<!-- Badge Read the Docs : à réactiver une fois l'hébergement de doc configuré.
-[![Documentation Status](https://readthedocs.org/projects/your-repo/badge/?version=latest)](https://your-repo.readthedocs.io/en/latest/)
--->
+[![CI](https://github.com/baobabgit/baobab-auth-security/actions/workflows/ci.yml/badge.svg)](https://github.com/baobabgit/baobab-auth-security/actions/workflows/ci.yml)
+[![Integration](https://github.com/baobabgit/baobab-auth-security/actions/workflows/integration.yml/badge.svg)](https://github.com/baobabgit/baobab-auth-security/actions/workflows/integration.yml)
+[![Release](https://github.com/baobabgit/baobab-auth-security/actions/workflows/release.yml/badge.svg)](https://github.com/baobabgit/baobab-auth-security/actions/workflows/release.yml)
+[![PyPI version](https://img.shields.io/pypi/v/baobab-auth-security.svg)](https://pypi.org/project/baobab-auth-security/)
+[![Python versions](https://img.shields.io/pypi/pyversions/baobab-auth-security.svg)](https://pypi.org/project/baobab-auth-security/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![Checked with mypy](https://www.mypy-lang.org/static/mypy_badge.svg)](https://mypy-lang.org/)
-[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)
 
-> Template de projet Python orienté objet, pensé pour être développé par **plusieurs outils**
-> (Claude Code, Cursor, Codex) qui partagent un **jeu de règles unique** via `AGENTS.md`.
-
-> ℹ️ Remplacez `your-org/your-repo`, `example-package` et le package `example_package`
-> par les valeurs de votre projet (badges, `pyproject.toml`, dossiers `src/` et `tests/`).
+> Brique technique de **sécurité** de l'écosystème [`baobab-auth`](https://github.com/baobabgit).
+> Elle fournit les implémentations concrètes que `baobab-auth-core` ne porte pas :
+> hachage Argon2id, JWT signés localement (RS256), refresh tokens opaques, clés RSA
+> et JWKS public local, plus des **adaptateurs stricts** vers les ports du core.
 
 ## Table des matières
 
-- [À propos](#à-propos)
-- [Fonctionnalités](#fonctionnalités)
-- [Stack technique](#stack-technique)
-- [Architecture](#architecture)
-- [Structure du projet](#structure-du-projet)
-- [Démarrage rapide](#démarrage-rapide)
+- [Positionnement](#positionnement)
+- [Installation](#installation)
+- [Usage](#usage)
 - [Configuration](#configuration)
+- [Qualité](#qualité)
+- [Tests](#tests)
+- [Release](#release)
+- [Intégration inter-briques](#intégration-inter-briques)
 - [Sécurité](#sécurité)
-- [Contribuer](#contribuer)
-- [Et après ?](#et-après-)
 - [Licence](#licence)
-- [Remerciements](#remerciements)
-- [Auteur](#auteur)
 
-## À propos
+## Positionnement
 
-Ce dépôt est un **template de développement**. Il fixe des règles claires
-(orienté objet, 1 classe par fichier, typage strict, tests ≥ 95 %, doc RST) et
-les rend applicables par **trois assistants IA** via une source unique de vérité
-(`AGENTS.md`). Objectif : produire un code homogène **sans rappeler les règles à
-chaque prompt**.
+`baobab-auth-security` est **indépendante** de l'API HTTP, de la base SQL et des
+applications métier. Elle **n'embarque ni** FastAPI, SQLAlchemy, Alembic, psycopg,
+asyncpg, redis, uvicorn **ni** logique métier.
 
-## Fonctionnalités
+| Module | Responsabilité |
+|--------|----------------|
+| `password` | `Argon2PasswordHasher`, `PasswordHashPolicy`, résultats typés |
+| `tokens` | `SecurityTokenClaims`, `SecurityTokenPair`, `JwtEncoder/Decoder/Validator`, `JwtTokenProvider` |
+| `refresh_tokens` | `RefreshTokenGenerator`, `RefreshTokenHasher`, `RefreshTokenResult` |
+| `keys` | `KeyAlgorithm`, `KeyStatus`, `KeyPair`, `KeyGenerator`, `InMemoryKeyProvider`, loader PEM |
+| `jwks` | `JWK`, `JWKS`, `LocalJwksProvider`, conversion RSA publique |
+| `revocation` | `InMemoryRevocationChecker` (par `jti`) |
+| `integration` | adaptateurs et mappers vers `baobab-auth-core` |
+| `clock` | `Clock`, `SystemClock`, `FixedClock` (UTC) |
+| `config` | `SecuritySettings` (`pydantic-settings`) |
 
-- 🤖 **Règles multi-IA unifiées** : `AGENTS.md` (source unique) lu par Codex,
-  importé par `CLAUDE.md`, reflété dans `.cursor/rules/`.
-- 🧱 **Conventions POO strictes** : 1 classe = 1 fichier, tests en arborescence miroir.
-- ✅ **Qualité garantie** : `ruff` + `mypy` strict + `pytest` (couverture ≥ 95 %),
-  doublés de `pre-commit` et d'une CI GitHub Actions.
-- 📚 **Documentation Sphinx/RST** : spécifications (US/FEAT), API (autodoc), guides (Diátaxis).
-- 🗂️ **Traçabilité** besoin → code → test via les identifiants `US / FEAT / TASK`.
-
-## Stack technique
-
-| Domaine        | Outil                                  |
-| -------------- | -------------------------------------- |
-| Langage        | Python ≥ 3.13                          |
-| Environnement  | `uv` + lockfile `uv.lock`              |
-| Format         | `black`                                |
-| Lint           | `ruff`                                 |
-| Typage         | `mypy` (strict)                        |
-| Sécurité       | `bandit`                               |
-| Tests          | `pytest` + `pytest-cov` (≥ 95 %)      |
-| Documentation  | `sphinx` (+ `furo`), reStructuredText  |
-| Config         | `pydantic-settings`                    |
-| CI / Hooks     | GitHub Actions, `pre-commit`           |
-
-## Architecture
-
-Deux axes orthogonaux structurent le projet :
-
-- **Le « quoi »** : `Cahier des charges → US → FEAT → Task` (arbre de besoin).
-- **Le « quand »** : sprints (champ *Iteration* de GitHub Projects).
-
-```
-Besoin (docs/specifications, RST)
-   └─ US-001 ──► Issue ─┐
-        └─ FEAT-001.1 ──► sub-issue ─┐  ◄── code (src/) + tests (tests/, miroir)
-             └─ TASK-001.1.1 ──► sub-issue ──► sprint (Iteration)
-```
-
-## Structure du projet
-
-```
-.
-├── AGENTS.md              # Règles de dev — SOURCE UNIQUE DE VÉRITÉ
-├── CLAUDE.md             # Adaptateur Claude Code (importe AGENTS.md)
-├── .cursor/rules/        # Adaptateur Cursor (reflète AGENTS.md)
-├── src/example_package/  # Code (1 classe par fichier)
-├── tests/unit/example_package/ # Tests en miroir de src/
-├── docs/                 # Sphinx : specifications/ · api/ · guides/
-│   └── workflow/         # Process multi-IA : rôles, gates, handoff, prompts
-├── .github/              # CI + templates d'issues (US/FEAT/Task) + PR
-├── pyproject.toml        # Config unique (projet, ruff, mypy, pytest, coverage)
-├── .pre-commit-config.yaml
-└── Makefile              # Commandes standard (install, lint, type, test, docs)
-```
-
-## Démarrage rapide
+## Installation
 
 ```bash
-# 1. Cloner
-git clone https://github.com/your-org/your-repo.git
-cd your-repo
-
-# 2. Installer l'environnement + les hooks (via uv)
-make install
-
-# 3. Vérifier (qualité + tests ≥ 95 % + build)
-make all
+uv add baobab-auth-security        # ou : pip install baobab-auth-security
 ```
 
-Prérequis : [uv](https://docs.astral.sh/uv/) installé (`curl -LsSf https://astral.sh/uv/install.sh | sh`).
+Dépendances runtime : `baobab-auth-core>=0.4.0,<1.0.0`, `argon2-cffi`,
+`cryptography`, `PyJWT`, `pydantic-settings`. Python ≥ 3.13.
+
+## Usage
+
+> ⚠️ v0.1.0 — socle MVP. Les exemples complets (hachage, émission JWT, JWKS,
+> adaptateurs core) sont documentés dans [`docs/`](docs/) au fil des modules.
+
+```python
+from datetime import UTC, datetime
+from baobab_auth_security import SystemClock, FixedClock
+
+clock = SystemClock()
+assert clock.now().tzinfo is not None          # toujours UTC aware
+
+# Horloge déterministe pour les tests
+fixed = FixedClock(datetime(2026, 1, 1, tzinfo=UTC))
+assert fixed.now() == datetime(2026, 1, 1, tzinfo=UTC)
+```
 
 ## Configuration
 
-La configuration passe par des **variables d'environnement** validées via
-`pydantic-settings`. Copiez le modèle et renseignez vos valeurs :
+La configuration est **injectée** via `pydantic-settings` (aucun état global).
+Voir [`.env.example`](.env.example) et `SecuritySettings` (préfixe `BAOBAB_SECURITY_`).
+
+## Qualité
 
 ```bash
-cp .env.example .env
+uv run black --check src tests
+uv run ruff check src tests
+uv run mypy src
+uv run bandit -r src -c pyproject.toml
 ```
 
-| Variable    | Description                      | Défaut        |
-| ----------- | -------------------------------- | ------------- |
-| `APP_ENV`   | Environnement applicatif         | `development` |
-| `LOG_LEVEL` | Niveau de journalisation         | `INFO`        |
+## Tests
+
+```bash
+uv run pytest --cov=src --cov-report=term-missing --cov-fail-under=95
+```
+
+Couverture globale ≥ 95 % imposée. Suites : `tests/unit/`, `tests/integration/`,
+`tests/security/`, `tests/contracts/`.
+
+## Release
+
+```bash
+uv build
+uv run twine check dist/*
+```
+
+Modèle de branches : `main → version/vX.Y.Z → bl/XXX-description`. Tag `vX.Y.Z`
+sur `main` après validation interne et d'intégration.
+
+## Intégration inter-briques
+
+Matrice de compatibilité :
+[`docs/integrations/compatibility_matrix.yaml`](docs/integrations/compatibility_matrix.yaml).
+v0.1.0 valide l'intégration contractuelle avec **`baobab-auth-core >=0.4.0,<1.0.0`**
+(validé contre `v0.5.1`). Détails : [`docs/integration_core.md`](docs/integration_core.md).
+
+**Intégration aval (`INTEGRATION_PENDING`)** — ref proposée `version/v0.1.0` ;
+intégration active **en attente** (gate) tant que `baobab-auth-api`,
+`baobab-auth-client` et `baobab-auth-admin` n'ont pas validé
+`baobab-auth-core v0.5.1`. Voir
+[`docs/integrations/integration_gate.md`](docs/integrations/integration_gate.md).
+
+Quand le gate est levé, les consommateurs testent via :
+
+```bash
+uv add "baobab-auth-security @ git+https://github.com/baobabgit/baobab-auth-security.git@version/v0.1.0"
+```
+
+Consommateur cible v0.1.0 : `baobab-auth-api` (login, refresh, JWKS local).
 
 ## Sécurité
 
-- **Aucun secret** dans le code ni dans Git : `.env` est gitignoré ; seul
-  `.env.example` (sans valeurs) est versionné.
-- Le hook `detect-private-key` et `pre-commit` bloquent les fuites évidentes.
-- Analyse `bandit` (SAST) + Dependabot alerts (vulns des dépendances).
-- Signalez toute vulnérabilité en privé (voir [`SECURITY.md`](SECURITY.md)) plutôt
-  que via une issue publique.
-
-## Contribuer
-
-Les règles de développement sont décrites dans [`AGENTS.md`](AGENTS.md) et le
-processus dans [`docs/ai_workflow/workflow.md`](docs/ai_workflow/workflow.md).
-En résumé : branche `bl/XXX-description` depuis `version/vX.Y.Z`,
-commit `BL-XXX: action`, PR verte (qualité + tests ≥ 95 % + build).
-
-## Intégration inter-librairies
-
-Les contrats publics sont dans [`docs/contracts/`](docs/contracts/).
-La matrice de compatibilité est dans
-[`docs/integrations/compatibility_matrix.yaml`](docs/integrations/compatibility_matrix.yaml).
-Le workflow `integration.yml` valide automatiquement les intégrations déclarées.
-
-## Et après ?
-
-- [ ] Brancher le dépôt sur GitHub Projects (US / FEAT / Task + sprints).
-- [ ] Publier la documentation (Read the Docs).
-- [ ] Configurer les environments GitHub (`pypi`) pour le Trusted Publishing.
-- [ ] Renseigner la matrice de compatibilité si la librairie dépend d'autres packages.
+- **Aucun secret** dans le code ou Git (`.env` gitignoré, `.env.example` versionné).
+- Mots de passe, refresh tokens, access tokens et clés privées **masqués** dans
+  `repr`/`str`/logs/exceptions ; JWKS **public uniquement**.
+- `alg=none` et les algorithmes hors liste blanche sont **refusés**.
+- Politique : [`docs/security.md`](docs/security.md) et [`SECURITY.md`](SECURITY.md).
 
 ## Licence
 
 Distribué sous licence **MIT**. Voir [`LICENSE`](LICENSE).
-

@@ -1,0 +1,11 @@
+id: BL-S-010-003
+title: "Implementer JWT local RS256"
+status: DONE
+# Statuts : TODO → READY → IN_PROGRESS → DONE | BLOCKED
+step: merged
+role: developpeur
+branch: bl/S-010-003-jwt-rs256
+started_at: 2026-06-29T10:20:00+00:00
+completed_at: 2026-06-29T11:00:00+00:00
+last_heartbeat_at: 2026-06-29T11:00:00+00:00
+merged_pr: 15

@@ -3,42 +3,46 @@
 #
 # Mécanisme d'intégration retenu : git-ref directe (pas de TestPyPI RC).
 # Le consommateur installe la branche version/ via :
-#   uv add "baobab-lib @ git+https://github.com/OWNER/baobab-lib.git@version/vX.Y.Z"
+#   uv add "baobab-auth-security @ git+https://github.com/baobabgit/baobab-auth-security.git@version/vX.Y.Z"
 # puis exécute sa suite de tests. Résultat consigné ici + rapport dans reports/.
-#
-# Côté librairie PRODUCTRICE (ce package expose des services à d'autres) :
-#
-# library: example-package
-# version: v0.1.0
-# validated_consumers: []
-#
-# Côté librairie CONSOMMATRICE (ce package dépend d'autres librairies) :
-#
-# library: example-package
-# version: v0.1.0
-# validated_dependencies: []
 
-library: example-package
+library: baobab-auth-security
 version: v0.1.0
+integration_ref: version/v0.1.0
 
-validated_consumers: []
-# Exemple :
-# - name: baobab-example-consumer
-#   version: v0.3.0
-#   status: PASSED                    # PENDING | PASSED | FAILED
-#   integration_method: git_ref
-#   ref: version/v0.1.0              # branche testée chez le consommateur
-#   report: docs/integrations/reports/example-package-v0.1.0__example-consumer-v0.3.0.md
+# Consommateurs de cette librairie (API, client, admin, service...).
+validated_consumers:
+  - order: 1
+    name: baobab-auth-api
+    contract: api
+    version: PENDING
+    status: PENDING
+    required: true
+    integration_method: git_ref
+    ref: version/v0.1.0
+    validation_type:
+      - import_tests
+      - contract_tests
+      - integration_tests
+    report: null
+    notes: >
+      Login, refresh, JWKS local ; dépend de database + security.
+      Consommateur cible v0.1.0 (cahier des charges § intégration).
+      **Gate actif** : intégration différée jusqu'à PASSED des consommateurs
+      core v0.5.1 ordres 3–5 (api, client, admin). Voir
+      docs/integrations/integration_gate.md.
+      Installation (quand gate levé) :
+      baobab-auth-security @ git+https://github.com/baobabgit/baobab-auth-security.git@version/v0.1.0
 
-validated_dependencies: []
-# Exemple :
-# - name: baobab-example-core
-#   version: v0.5.0
-#   status: PASSED                    # PENDING | PASSED | FAILED
-#   integration_method: git_ref
-#   ref: version/v0.5.0              # branche testée ici (via git-ref dans pyproject.toml)
-#   validation_type:
-#     - import_tests
-#     - contract_tests
-#     - integration_tests
-#   report: docs/integrations/reports/example-core-v0.5.0__example-package-v0.1.0.md
+# Dépendances de cette librairie (briques dont elle dépend).
+validated_dependencies:
+  - name: baobab-auth-core
+    version: v0.5.1
+    constraint: ">=0.4.0,<1.0.0"
+    status: PASSED
+    integration_method: pypi
+    validation_type:
+      - import_tests
+      - contract_tests
+      - integration_tests
+    report: docs/integrations/reports/baobab-auth-core-v0.5.1__baobab-auth-security-v0.1.0.md
