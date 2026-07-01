@@ -13,7 +13,7 @@ queue:
     title: "JWKS distant (extra httpx)"
     version_target: v0.2.0
     priority: P0
-    status: READY
+    status: DONE
     depends_on: [BL-S-020-001]
   - id: BL-S-020-003
     title: "Cache JWKS en mémoire"
