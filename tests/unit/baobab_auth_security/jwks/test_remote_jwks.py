@@ -78,9 +78,11 @@ class TestRemoteJwksFetcher:
     def test_FEAT_020_2_round_trip_ec_and_okp(self) -> None:
         ec = EcKeyGenerator(FixedClock(_NOW)).generate(kid="ec-remote")
         ed = Ed25519KeyGenerator(FixedClock(_NOW)).generate(kid="ed-remote")
-        document = LocalJwksProvider(
-            InMemoryKeyProvider((ec, ed)), PublicJwkConverter()
-        ).jwks().to_dict()
+        document = (
+            LocalJwksProvider(InMemoryKeyProvider((ec, ed)), PublicJwkConverter())
+            .jwks()
+            .to_dict()
+        )
         jwks, keys = JwksDocumentParser().parse(document)
         assert set(jwks.key_ids()) == {"ec-remote", "ed-remote"}
         assert len(keys) == 2
