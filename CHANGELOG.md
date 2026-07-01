@@ -7,15 +7,9 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+## [0.1.0] - 2026-06-30
+
 ### Ajouté
-
-- **Intégration aval** : version `v0.1.0` proposée aux consommateurs via git-ref
-  `version/v0.1.0` (`INTEGRATION_PENDING`) ; `baobab-auth-api` déclaré PENDING
-  dans `docs/integrations/compatibility_matrix.yaml`.
-- **Gate d'intégration** : intégration security→api différée jusqu'à validation
-  core v0.5.1 par api, client et admin (`docs/integrations/integration_gate.md`).
-
-### Ajouté (socle v0.1.0)
 
 - **Socle du package `baobab_auth_security`** (BL-S-010-001) : layout `src/`,
   `py.typed`, `version.py`, hiérarchie d'exceptions (`SecurityError` racine),
@@ -49,3 +43,5 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
   `SecurityTestHarness` (pile déterministe pour consommateurs),
   `tests/security/test_no_secret_leakage.py`, `docs/integration_core.md`,
   `docs/security.md`, `.env.example`, matrice de compatibilité (core `v0.5.1`).
+- Intégration aval proposée via git-ref `version/v0.1.0` (`INTEGRATION_PENDING`,
+  consommateur `baobab-auth-api`).
