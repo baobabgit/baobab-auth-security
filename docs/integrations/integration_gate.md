@@ -7,8 +7,9 @@ consommateurs restants avant de lancer l'intégration `baobab-auth-api` ×
 
 ## Contexte
 
-La ref `version/v0.1.0` est **proposée** (`INTEGRATION_PENDING`) mais
-l'intégration active côté `baobab-auth-api` est **différée** volontairement.
+La ref `version/v0.1.0` est **proposée** (`INTEGRATION_PENDING`) ; l'intégration
+active côté `baobab-auth-api` peut être **différée** tant que la chaîne core
+v0.5.1 n'est pas complète. La **release PyPI v0.1.0** n'est pas bloquée par ce gate.
 
 ## État chaîne core v0.5.1
 

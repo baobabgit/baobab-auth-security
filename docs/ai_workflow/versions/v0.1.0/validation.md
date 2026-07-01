@@ -27,8 +27,14 @@ Status : **INTEGRATION_PENDING** (2026-06-30)
 
 ### Gate actif (décision 2026-06-30)
 
-**Attente** de la validation `baobab-auth-core v0.5.1` par `baobab-auth-api`,
-`baobab-auth-client` et `baobab-auth-admin` (ordres 3–5 dans la matrice core)
-avant de lancer l'intégration aval security → api.
+**Attente** optionnelle de la validation `baobab-auth-core v0.5.1` par
+`baobab-auth-api`, `baobab-auth-client` et `baobab-auth-admin` avant
+l'intégration aval security → api. **Non bloquant** pour la release PyPI v0.1.0.
 
 Détail : [`docs/integrations/integration_gate.md`](../../integrations/integration_gate.md)
+
+## Release
+
+Status : **RELEASE_READY** (2026-06-30)
+
+- Merge `version/v0.1.0` → `main` puis tag `v0.1.0` → `release.yml` (PyPI + GitHub).
