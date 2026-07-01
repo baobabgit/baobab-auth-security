@@ -1,15 +1,27 @@
 name: Release
 
-# Déclenché uniquement par un tag vX.Y.Z créé sur main par le Release Manager.
-# Ce workflow ne réexécute PAS les contrôles de ci.yml : il vérifie que le
-# commit taggé porte déjà une CI verte, puis publie.
+# Déclenché par un tag vX.Y.Z sur main, ou manuellement pour republier PyPI.
 on:
   push:
     tags:
       - "v*.*.*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag SemVer à republier (ex. v0.1.0)"
+        required: true
+        type: string
+      skip_github_release:
+        description: "Ne pas recréer la GitHub Release (republish PyPI)"
+        required: false
+        type: boolean
+        default: true
 
 permissions:
   contents: read
+
+env:
+  RELEASE_TAG: ${{ github.event_name == 'workflow_dispatch' && inputs.tag || github.ref_name }}
 
 jobs:
   validate-tag:
@@ -18,14 +30,15 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with:
+          ref: refs/tags/${{ env.RELEASE_TAG }}
           fetch-depth: 0
       - name: Vérifier le format du tag (vX.Y.Z strict)
         run: |
-          if [[ ! "$GITHUB_REF_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-            echo "Tag invalide : $GITHUB_REF_NAME (attendu : vX.Y.Z)"
+          if [[ ! "${{ env.RELEASE_TAG }}" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Tag invalide : ${{ env.RELEASE_TAG }} (attendu : vX.Y.Z)"
             exit 1
           fi
-          echo "Tag valide : $GITHUB_REF_NAME"
+          echo "Tag valide : ${{ env.RELEASE_TAG }}"
       - uses: astral-sh/setup-uv@v8.2.0
       - run: uv python install 3.13
       - run: uv sync --frozen
@@ -34,7 +47,8 @@ jobs:
           PKG_VERSION=$(uv run python -c "
           import importlib.metadata; print(importlib.metadata.version('baobab-auth-security'))
           ")
-          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          TAG_VERSION="${{ env.RELEASE_TAG }}"
+          TAG_VERSION="${TAG_VERSION#v}"
           if [ "$PKG_VERSION" != "$TAG_VERSION" ]; then
             echo "ERREUR : version tag ($TAG_VERSION) ≠ version package ($PKG_VERSION)"
             exit 1
@@ -42,10 +56,24 @@ jobs:
           echo "Versions cohérentes : $PKG_VERSION"
       - name: Vérifier la présence dans CHANGELOG
         run: |
-          if ! grep -q "\[${GITHUB_REF_NAME#v}\]" CHANGELOG.md; then
-            echo "ERREUR : version ${GITHUB_REF_NAME#v} absente du CHANGELOG.md"
+          VERSION="${{ env.RELEASE_TAG }}"
+          VERSION="${VERSION#v}"
+          if ! grep -q "\[${VERSION}\]" CHANGELOG.md; then
+            echo "ERREUR : version ${VERSION} absente du CHANGELOG.md"
             exit 1
           fi
+      - name: Vérifier le nom du package (Trusted Publishing PyPI)
+        run: |
+          PKG_NAME=$(uv run python -c "
+          from importlib.metadata import metadata
+          print(metadata('baobab-auth-security')['Name'])
+          ")
+          if [ "$PKG_NAME" != "baobab-auth-security" ]; then
+            echo "ERREUR : nom PyPI inattendu ($PKG_NAME)"
+            exit 1
+          fi
+          echo "Nom PyPI : baobab-auth-security"
+          echo "::notice title=PyPI Trusted Publishing::Configurer un pending publisher sur pypi.org : Owner=baobabgit, Repository=baobab-auth-security, Workflow=release.yml, Environment=pypi"
 
   build:
     name: Build + vérification distribution
@@ -58,6 +86,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7
         with:
+          ref: refs/tags/${{ env.RELEASE_TAG }}
           fetch-depth: 0
       - uses: astral-sh/setup-uv@v8.2.0
       - run: uv python install 3.13
@@ -65,15 +94,17 @@ jobs:
       - name: Build sdist + wheel
         run: uv build
       - name: Twine check
-        run: uv run twine check dist/*
+        run: uv run twine check dist/*.whl dist/*.tar.gz
       - name: Attestation de provenance (supply chain)
         uses: actions/attest-build-provenance@v4
         with:
-          subject-path: "dist/*"
+          subject-path: "dist/*.whl"
       - uses: actions/upload-artifact@v7
         with:
           name: dist
-          path: dist/
+          path: |
+            dist/*.whl
+            dist/*.tar.gz
 
   publish-pypi:
     name: Publier sur PyPI (Trusted Publishing)
@@ -87,17 +118,27 @@ jobs:
         with:
           name: dist
           path: dist/
+      - name: Vérifier les artefacts publiables
+        run: |
+          ls -la dist/
+          test "$(find dist -maxdepth 1 -name '*.whl' | wc -l)" -ge 1
+          test "$(find dist -maxdepth 1 -name '*.tar.gz' | wc -l)" -ge 1
       - name: Publish to PyPI
         uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist/
 
   github-release:
     name: Créer la GitHub Release
+    if: github.event_name == 'push' || inputs.skip_github_release != true
     runs-on: ubuntu-latest
     needs: build
     permissions:
       contents: write
     steps:
       - uses: actions/checkout@v7
+        with:
+          ref: refs/tags/${{ env.RELEASE_TAG }}
       - uses: actions/download-artifact@v8
         with:
           name: dist
@@ -105,6 +146,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v3
         with:
+          tag_name: ${{ env.RELEASE_TAG }}
           files: dist/*
           generate_release_notes: true
           body: "Voir [CHANGELOG.md](CHANGELOG.md) pour le détail des changements."

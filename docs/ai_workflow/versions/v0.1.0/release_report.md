@@ -13,13 +13,17 @@ Tag : v0.1.0
 
 ## Artefacts
 
-- [ ] sdist
-- [ ] wheel
-- [ ] Release GitHub
-- [ ] PyPI
+- [x] sdist (build local + CI)
+- [x] wheel (build local + CI)
+- [x] Release GitHub ([v0.1.0](https://github.com/baobabgit/baobab-auth-security/releases/tag/v0.1.0))
+- [ ] PyPI — **échec 2026-07-01** : projet absent ; configurer *pending publisher*
+  (voir `docs/workflow/SETUP.md` §6) puis relancer workflow Release.
 
-## Notes
+## Diagnostic échec PyPI (run 28532178248)
 
-Première release publique MVP : Argon2id, JWT RS256, refresh opaques, clés RSA,
-JWKS local, adaptateurs `baobab-auth-core`. Intégration aval `baobab-auth-api`
-reste PENDING (git-ref toujours disponible).
+```
+400 Non-user identities cannot create new projects
+```
+
+Cause : pas de *pending publisher* PyPI pour `baobab-auth-security` avant le 1er upload.
+Corrections : `release.yml` (artefacts wheel/sdist uniquement, `workflow_dispatch`).

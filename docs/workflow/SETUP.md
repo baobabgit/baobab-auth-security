@@ -92,13 +92,23 @@ gh api -X PUT repos/OWNER/REPO/environments/testpypi
 
 ## 6. Trusted Publishing (UI PyPI / TestPyPI — pas de `gh`)
 
-Sur **pypi.org** et **test.pypi.org** → *Your projects* → *Publishing* → *Add a pending
-publisher* :
+**Obligatoire avant la première release** : un Trusted Publisher ne peut pas créer un
+projet PyPI tout seul sans *pending publisher* préalable.
 
-- Owner : `OWNER`
-- Repository : `REPO`
-- Workflow : `release.yml`
-- Environment : `pypi` (et `testpypi` côté TestPyPI)
+Sur **pypi.org** → *Account settings* → *Publishing* → *Add a new pending publisher* :
+
+| Champ | `baobab-auth-security` |
+|-------|------------------------|
+| PyPI Project Name | *(laisser vide — créé au 1er upload)* |
+| Owner | `baobabgit` |
+| Repository | `baobab-auth-security` |
+| Workflow name | `release.yml` |
+| Environment name | `pypi` |
+
+Vérifier que ``pyproject.toml`` contient ``name = "baobab-auth-security"`` (identique).
+
+Republier après échec PyPI : *Actions* → *Release* → *Run workflow* → tag ``v0.1.0``,
+cocher *skip_github_release*.
 
 Aucun token à stocker : la publication se fait par OIDC.
 
