@@ -19,6 +19,10 @@ class JwtAlgorithm(StrEnum):
     RS256 = "RS256"
     RS384 = "RS384"
     RS512 = "RS512"
+    ES256 = "ES256"
+    ES384 = "ES384"
+    ES512 = "ES512"
+    EdDSA = "EdDSA"
 
     @classmethod
     def from_name(cls, name: str) -> JwtAlgorithm:

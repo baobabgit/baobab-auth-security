@@ -5,14 +5,14 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, cast
 
 import jwt
-from cryptography.hazmat.primitives.asymmetric.rsa import RSAPrivateKey
 
 from baobab_auth_security.exceptions import TokenEncodingError
 from baobab_auth_security.tokens.jwt_algorithm import JwtAlgorithm
 from baobab_auth_security.tokens.security_token_claims import SecurityTokenClaims
+from baobab_auth_security.tokens.signing_key_types import SigningPrivateKey
 
 
 class JwtEncoder:
@@ -21,14 +21,14 @@ class JwtEncoder:
     Le header porte ``kid`` et ``alg``. L'algorithme est restreint à la liste
     blanche :class:`JwtAlgorithm` (RS256 par défaut).
 
-    :param private_key: Clé privée RSA de signature.
+    :param private_key: Clé privée de signature (RSA, EC ou OKP).
     :param kid: Identifiant de clé publié dans le header (``kid``).
     :param algorithm: Algorithme de signature ; défaut ``RS256``.
     """
 
     def __init__(
         self,
-        private_key: RSAPrivateKey,
+        private_key: SigningPrivateKey,
         kid: str,
         algorithm: JwtAlgorithm = JwtAlgorithm.RS256,
     ) -> None:
@@ -73,7 +73,7 @@ class JwtEncoder:
         try:
             return jwt.encode(
                 payload,
-                self._private_key,
+                cast(Any, self._private_key),
                 algorithm=self._algorithm.value,
                 headers={"kid": self._kid},
             )

@@ -15,24 +15,27 @@ validated_consumers:
   - order: 1
     name: baobab-auth-api
     contract: api
-    version: PENDING
-    status: PENDING
+    version: v0.1.0
+    status: PASSED
     required: true
-    integration_method: git_ref
-    ref: version/v0.1.0
+    integration_method: pypi
+    ref: "baobab-auth-security>=0.1.1,<0.2.0"
+    validated_at: "2026-07-01"
     validation_type:
       - import_tests
       - contract_tests
       - integration_tests
-    report: null
+    report: docs/integrations/reports/baobab-auth-security-v0.1.1__baobab-auth-api-v0.1.0.md
+    validated_features:
+      - CorePasswordHasherAdapter
+      - CoreTokenProviderAdapter
+      - LocalJwksProvider
+      - JWT RS256
+      - access and refresh tokens
     notes: >
-      Login, refresh, JWKS local ; dépend de database + security.
-      Consommateur cible v0.1.0 (cahier des charges § intégration).
-      **Gate actif** : intégration différée jusqu'à PASSED des consommateurs
-      core v0.5.1 ordres 3–5 (api, client, admin). Voir
-      docs/integrations/integration_gate.md.
-      Installation (quand gate levé) :
-      baobab-auth-security @ git+https://github.com/baobabgit/baobab-auth-security.git@version/v0.1.0
+      Login, refresh, JWKS local ; dépend de database v0.1.1 + security v0.1.1 (PyPI).
+      Rapport consommateur : baobab-auth-api
+      docs/integrations/reports/baobab-auth-security-v0.1.1__baobab-auth-api-v0.1.0.md
 
 # Dépendances de cette librairie (briques dont elle dépend).
 validated_dependencies:

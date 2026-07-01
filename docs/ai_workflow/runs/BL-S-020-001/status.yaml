@@ -1,0 +1,10 @@
+id: BL-S-020-001
+title: "Algorithmes ES256 et EdDSA"
+status: DONE
+step: merged
+role: developpeur
+branch: bl/S-020-001-ec-es-ed-algorithms
+started_at: 2026-06-28T12:00:00+00:00
+completed_at: null
+last_heartbeat_at: 2026-06-28T12:00:00+00:00
+merged_pr: null

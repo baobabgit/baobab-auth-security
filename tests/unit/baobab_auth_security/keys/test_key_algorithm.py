@@ -17,6 +17,9 @@ class TestKeyAlgorithm:
     def test_FEAT_010_4_from_name_resolves_known(self) -> None:
         assert KeyAlgorithm.from_name("RS512") is KeyAlgorithm.RS512
 
+    def test_FEAT_020_1_from_name_resolves_ec(self) -> None:
+        assert KeyAlgorithm.from_name("ES256") is KeyAlgorithm.ES256
+
     def test_FEAT_010_4_from_name_rejects_unknown(self) -> None:
         with pytest.raises(ConfigurationError):
-            KeyAlgorithm.from_name("ES256")
+            KeyAlgorithm.from_name("HS256")
