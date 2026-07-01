@@ -28,7 +28,10 @@ validated_consumers:
     notes: >
       Login, refresh, JWKS local ; dépend de database + security.
       Consommateur cible v0.1.0 (cahier des charges § intégration).
-      Installation :
+      **Gate actif** : intégration différée jusqu'à PASSED des consommateurs
+      core v0.5.1 ordres 3–5 (api, client, admin). Voir
+      docs/integrations/integration_gate.md.
+      Installation (quand gate levé) :
       baobab-auth-security @ git+https://github.com/baobabgit/baobab-auth-security.git@version/v0.1.0
 
 # Dépendances de cette librairie (briques dont elle dépend).
