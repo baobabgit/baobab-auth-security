@@ -7,6 +7,13 @@ et ce projet adhère au [Semantic Versioning](https://semver.org/lang/fr/).
 
 ## [Non publié]
 
+## [0.1.1] - 2026-07-01
+
+### Corrigé
+
+- Workflow Release : artefacts PyPI (wheel/sdist uniquement), republication via
+  `workflow_dispatch`, documentation Trusted Publishing (`docs/workflow/SETUP.md`).
+
 ## [0.1.0] - 2026-06-30
 
 ### Ajouté

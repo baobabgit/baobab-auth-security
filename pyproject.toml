@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "baobab-auth-security"
-version = "0.1.0"
+version = "0.1.1"
 description = "Brique de sécurité de l'écosystème baobab-auth : Argon2id, JWT RS256, refresh tokens opaques, clés RSA et JWKS local."
 readme = "README.md"
 requires-python = ">=3.13"

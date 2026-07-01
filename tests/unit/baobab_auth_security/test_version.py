@@ -17,7 +17,7 @@ class TestVersion:
         version = __version__
 
         # Assert
-        assert version == "0.1.0"
+        assert version == "0.1.1"
         assert version.count(".") == 2
 
     def test_FEAT_012_1_version_reexported_at_package_root(self) -> None:
